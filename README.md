@@ -7,3 +7,5 @@
 #
 Для совсем ленивых готовый пак: **лаунчер + TorrServer MatriX.106 (x32 и x64)**  
 Просто распаковать архив [TorrServer106_with_TSL13.zip](https://github.com/Noperkot/TSL/raw/main/TorrServer106_with_TSL13.zip), войти в папку TorrServer и запустить tsl.exe.    
+#
+![](https://github.com/Noperkot/TSL/blob/main/img/screen1.png)
