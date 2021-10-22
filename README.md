@@ -5,7 +5,7 @@
 
 Последнюю версию TorrServer можно взять здесь: [x32](http://releases.yourok.ru/torr/server/TorrServer-windows-386.exe), [x64](http://releases.yourok.ru/torr/server/TorrServer-windows-amd64.exe).  
 #
-Для совсем ленивых готовый пак: **лаунчер + TorrServer MatriX.106 (x32 и x64)**  
+Для ленивых готовый пак: **лаунчер + TorrServer MatriX.106 (x32 и x64)**  
 Просто распаковать архив [TorrServer106_with_TSL13.zip](https://github.com/Noperkot/TSL/raw/main/TorrServer106_with_TSL13.zip), войти в папку TorrServer и запустить tsl.exe.    
 #
 ![](https://github.com/Noperkot/TSL/blob/main/img/screen1.png)
