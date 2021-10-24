@@ -10,8 +10,8 @@
 Для работы с сервером можно использовать любой MatriX совместимый TorrServe клиент, в том числе расширение для браузеров **TorrServer Adder** ([Chrome](https://chrome.google.com/webstore/detail/torrserver-adder/ihphookhabmjbgccflngglmidjloeefg?hl=ru), [Firefox](https://addons.mozilla.org/ru/firefox/addon/torrserver-adder/)).
 #
 Обсуждение TorrServer'а и всего что с ним связано:
-- [на 4PDA](https://4pda.to/forum/index.php?showtopic=889960)  
-- [в Telegram](https://t.me/TorrServe)  
+- [на 4PDA](https://4pda.to/forum/index.php?showtopic=889960)
+- [в Telegram](https://t.me/TorrServe)
 #
-![](https://github.com/Noperkot/TSL/blob/main/img/screen1.png)  
-![](https://github.com/Noperkot/TSL/blob/main/img/screen2.png)  
+![](img/screen1.png)  
+![](img/screen2.png)  
