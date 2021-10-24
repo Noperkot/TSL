@@ -7,7 +7,7 @@
 #
 Для ленивых готовый пак: **лаунчер + TorrServer MatriX.106 (x32 и x64)**  
 Просто распаковать архив [TorrServer106_with_TSL13.zip](https://github.com/Noperkot/TSL/raw/main/TorrServer106_with_TSL13.zip), войти в папку TorrServer и запустить tsl.exe.  
-Для работы с сервером можно использовать любой MatriX совместимый TorrServe клиент, в том числе расширение для браузера [TorrServer Adder](https://4pda.to/forum/index.php?showtopic=889960&view=findpost&p=104172272).
+Для работы с сервером можно использовать любой MatriX совместимый TorrServe клиент, в том числе расширение для браузеров **TorrServer Adder** ([Chrome](https://4pda.to/pages/go/?u=https%3A%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Ftorrserver-adder%2Fihphookhabmjbgccflngglmidjloeefg&e=104172272), [Firefox](https://4pda.to/pages/go/?u=https%3A%2F%2Faddons.mozilla.org%2Fru%2Ffirefox%2Faddon%2Ftorrserver-adder&e=104172272)).
 #
 Обсуждение TorrServer'а и всего что с ним связано:
 - [на 4PDA](https://4pda.to/forum/index.php?showtopic=889960)  
