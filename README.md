@@ -9,5 +9,9 @@
 Просто распаковать архив [TorrServer106_with_TSL13.zip](https://github.com/Noperkot/TSL/raw/main/TorrServer106_with_TSL13.zip), войти в папку TorrServer и запустить tsl.exe.  
 Для работы с сервером можно использовать любой MatriX совместимый TorrServe клиент, в том числе расширение для браузера [TorrServer Adder](https://4pda.to/forum/index.php?showtopic=889960&view=findpost&p=104172272).
 #
-![](https://github.com/Noperkot/TSL/blob/main/img/screen1.png)
-![](https://github.com/Noperkot/TSL/blob/main/img/screen2.png)
+Обсуждение TorrServer'а и всего что с ним связано:
+- [на 4PDA](https://4pda.to/forum/index.php?showtopic=889960)  
+- [в Telegram](https://t.me/TorrServe)  
+#
+![](https://github.com/Noperkot/TSL/blob/main/img/screen1.png)  
+![](https://github.com/Noperkot/TSL/blob/main/img/screen2.png)  
