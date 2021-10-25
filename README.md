@@ -1,7 +1,7 @@
 # TSL - лаунчер для TorrServer под Windows  
 Позволяет сворачивать консольное окно торрсервера в трей. Есть автозапуск при входе в систему. Работает с любой версией сервера.  
 #### Использование:  
-[tsl.exe](https://github.com/Noperkot/TSL/releases/download/v1.3/tsl.exe) положить в одну папку с исполняемым файлом торрсервера ( TorrServer-windows-\*\*\*.exe ) и запустить его - торрсервер запустится свернутым в трей (иконка рядом с часами в правом нижнем углу экрана). При желании можно включить автозапуск.  
+В папку с исполняемым файлом торрсервера ( TorrServer-windows-\*\*\*.exe ) положить [tsl.exe](https://github.com/Noperkot/TSL/releases/download/v1.3/tsl.exe) и запустить его - торрсервер запустится свернутым в трей (иконка рядом с часами в правом нижнем углу экрана). При желании можно включить автозапуск.  
 
 Последнюю версию TorrServer можно взять здесь: [x32](http://releases.yourok.ru/torr/server/TorrServer-windows-386.exe), [x64](http://releases.yourok.ru/torr/server/TorrServer-windows-amd64.exe).  
 #
