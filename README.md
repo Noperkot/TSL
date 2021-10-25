@@ -3,7 +3,7 @@
 #### Использование:  
 В папку с исполняемым файлом торрсервера ( TorrServer-windows-\*\*\*.exe ) положить [tsl.exe](https://github.com/Noperkot/TSL/releases/download/v1.3/tsl.exe) и запустить его - торрсервер запустится свернутым в трей (иконка рядом с часами в правом нижнем углу экрана). При желании можно включить автозапуск.  
 
-Последнюю версию TorrServer можно взять здесь: [x32](http://releases.yourok.ru/torr/server/TorrServer-windows-386.exe), [x64](http://releases.yourok.ru/torr/server/TorrServer-windows-amd64.exe).  
+( Последнюю версию TorrServer можно взять здесь: [x32](http://releases.yourok.ru/torr/server/TorrServer-windows-386.exe), [x64](http://releases.yourok.ru/torr/server/TorrServer-windows-amd64.exe) )  
 #
 Для ленивых готовый пак: **лаунчер + TorrServer MatriX.106 (x32 и x64)**  
 Просто распаковать архив [TorrServer106_with_TSL13.zip](https://github.com/Noperkot/TSL/releases/download/v1.3/TorrServer106_with_TSL13.zip), войти в папку TorrServer и запустить tsl.exe.  
