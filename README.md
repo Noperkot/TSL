@@ -7,7 +7,7 @@ _( Последнюю версию TorrServer под вашу архитекту
 
 ***
 Для ленивых готовый пак: **лаунчер + TorrServer MatriX.109 (x32 и x64)**  
-Просто распаковать архив [**TorrServer109_with_TSL14.zip**](https://github.com/Noperkot/TSL/releases/download/1.4/TorrServer109_with_TSL14.zip), войти в папку TorrServer и запустить tsl.exe.  
+Просто распаковать архив [**TorrServer109_with_TSL15.zip**](https://github.com/Noperkot/TSL/releases/download/1.5/TorrServer109_with_TSL15.zip), войти в папку TorrServer и запустить tsl.exe.  
 
 Для работы с сервером можно использовать любой MatriX-совместимый TorrServe клиент, в том числе расширение для браузеров **TorrServer Adder** ( [Chrome](https://chrome.google.com/webstore/detail/torrserver-adder/ihphookhabmjbgccflngglmidjloeefg?hl=ru), [Firefox](https://addons.mozilla.org/ru/firefox/addon/torrserver-adder/) ).
 ***
