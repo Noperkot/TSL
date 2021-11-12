@@ -6,8 +6,7 @@
 _( Последнюю версию TorrServer под вашу архитектуру можно взять [здесь](https://github.com/YouROK/TorrServer/releases) )_  
 
 ***
-Для ленивых готовый пак: **лаунчер + TorrServer MatriX.109 (x32 и x64)**  
-Просто распаковать архив [**TorrServer109_with_TSL151.zip**](https://github.com/Noperkot/TSL/releases/download/1.5.1/TorrServer109_with_TSL151.zip), войти в папку TorrServer и запустить tsl.exe.  
+Для ленивых готовый инсталлятор: [**TorrServer MatriX.109 + лаунчер**](https://htmlpreview.github.io/?https://github.com/Noperkot/TSL/blob/main/ts_installer.html)   
 
 Для работы с сервером можно использовать любой MatriX-совместимый TorrServe клиент, в том числе расширение для браузеров **TorrServer Adder** ( [Chrome](https://chrome.google.com/webstore/detail/torrserver-adder/ihphookhabmjbgccflngglmidjloeefg?hl=ru), [Firefox](https://addons.mozilla.org/ru/firefox/addon/torrserver-adder/) ).
 ***
