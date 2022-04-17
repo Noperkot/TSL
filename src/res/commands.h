@@ -1,0 +1,10 @@
+#define ID_EXIT                 11001
+#define ID_SHOW                 11002
+#define ID_HIDE                 11003
+#define ID_SHOWHIDE             11004
+#define ID_STOP                 11005
+#define ID_START                11006
+#define ID_RESTART              11007
+#define ID_OPENWEB              11008
+#define ID_COPY                 11009
+#define ID_CLEAR                11010
