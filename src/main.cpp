@@ -9,8 +9,8 @@
 #include "main.h"
 #include "dialogs.h"
 
-enum CMD_E : UINT { CMD_UNRECOGNIZED = 0, CMD_SILENT, CMD_CLOSE, CMD_STOP, CMD_START, CMD_RESTART, CMD_SHOW, CMD_HIDE, CMD_RESET };
-const LPCWSTR cmdArgs[] = { L"--silent", L"--close", L"--stop", L"--start", L"--restart", L"--show", L"--hide", L"--reset" };
+enum CMD_E : UINT { CMD_UNRECOGNIZED = 0, CMD_SILENT, CMD_CLOSE, CMD_STOP, CMD_START, CMD_RESTART, CMD_SHOW, CMD_HIDE, CMD_RESET, CMD_OPENWEB };
+const LPCWSTR cmdArgs[] = { L"--silent", L"--close", L"--stop", L"--start", L"--restart", L"--show", L"--hide", L"--reset", L"--web" };
 
 OPTIONS_S opt;
 HWND hMainWnd;
@@ -27,7 +27,7 @@ int WINAPI wWinMain ( HINSTANCE hInst, HINSTANCE, LPWSTR args, int ss ) {
 	CMD_E cmd = cmd_parser ( args );
 	switch ( cmd ) {														// первый распознанный параметр командной строки (остальные игнорируем)
 		case CMD_CLOSE:
-			if ( hWnd ) SendMessage ( hWnd, WM_COMMAND,  ID_EXIT, 0 );		// Закрываем запущенный экземпляр tsl
+			if ( hWnd ) SendMessage ( hWnd, WM_DESTROY,  0, 0 );			// Закрываем запущенный экземпляр tsl
 			return EXIT_SUCCESS;
 		case CMD_STOP:
 			if ( !hWnd ) break;
@@ -49,6 +49,10 @@ int WINAPI wWinMain ( HINSTANCE hInst, HINSTANCE, LPWSTR args, int ss ) {
 			if ( hWnd ) SendMessage ( hWnd, WM_DESTROY,  0, 0 );
 			opt_reset();
 			rcMessageBox ( 0, STR_RESETTETTINGS, MB_OK | MB_APPLMODAL | MB_ICONWARNING );
+			return EXIT_SUCCESS;
+		case CMD_OPENWEB:
+			if ( !hWnd ) break;
+			SendMessage ( hWnd, WM_COMMAND, ID_OPENWEB, 0 );
 			return EXIT_SUCCESS;
 		default:															// CMD_UNRECOGNIZED, CMD_SILENT, CMD_SHOW
 			if ( !hWnd ) break;
@@ -107,6 +111,7 @@ int WINAPI wWinMain ( HINSTANCE hInst, HINSTANCE, LPWSTR args, int ss ) {
 		if ( cmd == CMD_SHOW ) ShowWindow ( hMainWnd, ( opt.WindowMax ) ? SW_MAXIMIZE : SW_SHOW );
 		UpdateWindow ( hMainWnd );
 		if ( cmd != CMD_STOP ) SendMessage ( hMainWnd, WM_COMMAND, ID_START, 0 ); // запускаем сервер
+		if ( cmd == CMD_OPENWEB ) SendMessage ( hMainWnd, WM_COMMAND, ID_OPENWEB, 0 );
 		HACCEL hAccelTable = LoadAccelerators ( GetModuleHandle ( NULL ), MAKEINTRESOURCE ( IDR_ACCEL1 ) );
 		MSG msg;
 		while ( GetMessage ( &msg, NULL, 0, 0 ) ) {

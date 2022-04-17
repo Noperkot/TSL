@@ -4,10 +4,9 @@
 PREFIX = /usr/bin/i686-w64-mingw32
 EXECUTABLE = tsl.exe
 
-CC = $(PREFIX)-gcc
 CXX = $(PREFIX)-g++
-WINDRES = $(PREFIX)-windres
-LINK = $(CXX)
+WRS = $(PREFIX)-windres
+LNK = $(CXX)
 
 CXXFLAGS = -m32 -municode -O2 -Wall
 CFLAGS   = -m32 -municode -O2 -Wall
@@ -27,7 +26,7 @@ HEADERS = $(wildcard $(SRC_DIR)/*.h) $(wildcard $(RES_DIR)/*.h)
 $(EXECUTABLE): $(OBJ_DIR) $(BLD_DIR) $(OBJECTS)
 	@echo
 	@echo -n Linking $(EXECUTABLE)
-	@$(CXX) $(OBJECTS) -o $(BLD_DIR)/$(EXECUTABLE) $(LDFLAGS)
+	@$(LNK) $(OBJECTS) -o $(BLD_DIR)/$(EXECUTABLE) $(LDFLAGS)
 	@ #upx -9 $(BLD_DIR)/$(EXECUTABLE)
 	@ #echo $(EXECUTABLE) `du -sh $(BLD_DIR)/$(EXECUTABLE) | cut -f1` 
 	@echo " -" `ls -lh $(BLD_DIR)/$(EXECUTABLE) | awk '{print $$5}'`
@@ -43,12 +42,12 @@ $(foreach EXT,$(SRC_EXT),$(eval $(call compile_rule,$(EXT))))
 $(OBJ_DIR)/resource.o: $(RES_DIR)/resource.rc $(RES_DIR)/resource.h $(RES_DIR)/xpmanifest.xml Makefile
 	@echo Compile $<
 	@iconv -f UTF-16LE -t UTF-8 $(RES_DIR)/resource.rc -o $(RES_DIR)/resource_utf8.rc
-	@$(WINDRES) --codepage=65001 -i $(RES_DIR)/resource_utf8.rc -o $(OBJ_DIR)/resource.o
+	@$(WRS) --codepage=65001 -i $(RES_DIR)/resource_utf8.rc -o $(OBJ_DIR)/resource.o
 	@rm $(RES_DIR)/resource_utf8.rc
 	
 $(OBJ_DIR)/version.o: $(RES_DIR)/version.rc $(RES_DIR)/version.h Makefile 
 	@echo Compile $<
-	@$(WINDRES) --codepage=65001 -i $< -o $@
+	@$(WRS) --codepage=65001 -i $< -o $@
 
 $(OBJ_DIR):
 	@echo Create dir \'$(OBJ_DIR)\'
