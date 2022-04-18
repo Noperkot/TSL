@@ -57,7 +57,7 @@ args | REG_SZ |  | Аргументы командной строки TS
 <details>
 <summary>Скриншоты</summary>  
 
-![](img/screen1.png)  
+![](https://raw.githubusercontent.com/Noperkot/TSL/master/img/screen1.png)  
 
-![](img/screen2.png)  
+![](https://raw.githubusercontent.com/Noperkot/TSL/master/img/screen2.png)  
 </details>
