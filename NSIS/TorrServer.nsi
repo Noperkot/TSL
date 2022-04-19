@@ -21,7 +21,7 @@
 
 
 !define APPNAME "TorrServer"
-!define TSDIR ".\TorrServers\${APPVERSION}"
+!define TSDIR "TorrServers/${APPVERSION}"
 !define TorrServerEXE32 "TorrServer-windows-386.exe"
 !define TorrServerEXE64 "TorrServer-windows-amd64.exe"
 !define TSLDIR "../build/signed/${TSLVERSION}"
