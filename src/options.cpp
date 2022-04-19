@@ -25,9 +25,10 @@ struct {
 	{ L"WindowMax",					REG_DWORD,	( LPCVOID ) 0 },					// Развернуть на весь экран. 0-нет, 1-да
 	{ L"TextWrapping",				REG_DWORD,	( LPCVOID ) 0 },					// Переносить строки в консоли. 0-нет, 1-да
 	{ L"MaxLines",					REG_DWORD,	( LPCVOID ) 1000 },					// Строк в кольцевм буфере консоли
-	{ L"ExitWhenClose",				REG_DWORD,	( LPCVOID ) 0 },					// 1 - выход при закрытии окна. 0 - сворачивать в трей.
+	{ L"ExitWhenClose",				REG_DWORD,	( LPCVOID ) 0 },					// 1 - выход при закрытии окна. 0 - сворачивать в трей
 	{ L"OnTSdead",					REG_DWORD,	( LPCVOID ) ONDEAD_NOACTION },		// Действие при падении TS. 0 -ничего не делать, 1 - закрыть программу, 2 - перезапустить TS
-	{ L"OnIconClick",				REG_DWORD,	( LPCVOID ) ONCLICK_SHOWHIDE },		// Действие при клике по иконке в трее. 0 - показать/скрыть окно, 1 - открыть веб-интерфейс TS
+	{ L"OnIconClick",				REG_DWORD,	( LPCVOID ) ONCLICK_SHOWHIDE },		// Действие при клике по иконке в трее. 0 - показать/скрыть окно, 1 - открыть веб-интерфейс TS, 2 - рестарт TS
+	{ L"DblIconClick",				REG_DWORD,	( LPCVOID ) 0 },					// Клик по иконке в трее. 0 - одинарный, 1 - двойной.
 	{ L"ConsoleBkColor",			REG_DWORD,	( LPCVOID ) 0x000000 },				// hex цвет фона 0xRRGGBB
 	{ L"ConsoleFontColor",			REG_DWORD,	( LPCVOID ) 0xBBBBBB },				// hex цвет шрифта 0xRRGGBB 0xED9121 - морковный
 	{ L"ConsoleFontSize",			REG_DWORD,	( LPCVOID ) 9 },					// Размер шрифта

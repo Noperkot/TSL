@@ -1,8 +1,8 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-enum { ONDEAD_NOACTION = 0, ONDEAD_CLOSE, ONDEAD_RESTART };
-enum { ONCLICK_SHOWHIDE = 0, ONCLICK_OPENWEB };
+enum { ONDEAD_NOACTION = 0, ONDEAD_CLOSE, ONDEAD_SHOW, ONDEAD_RESTART };
+enum { ONCLICK_SHOWHIDE = 0, ONCLICK_OPENWEB, ONCLICK_RESTART };
 #define AUTO -1
 
 struct OPTIONS_S {
@@ -19,6 +19,7 @@ struct OPTIONS_S {
 	INT		ExitWhenClose;
 	INT		OnTSdead;
 	INT		OnIconClick;
+	INT		DblIconClick;
 	INT		ConsoleBkColor;
 	INT		ConsoleFontColor;
 	INT		ConsoleFontSize;

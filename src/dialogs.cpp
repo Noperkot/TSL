@@ -153,18 +153,34 @@ LRESULT CALLBACK MainWinProc ( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				case ID_START:
 					if( !ServerRunning() ) {
 						SetWindowText ( hConsole, L"" );
+						verChk = opt.GrabVerLines;
+						wStrReplace( &TS_version, L"TorrServer" );
+						SetWindowText ( hWnd, TS_version );
+						wcscpy ( tsUrl + 17, L"8090" );
+						if ( opt.args ) { // ищем порт в параметрах командной строки
+							int	 argc;
+							LPWSTR * pArg = CommandLineToArgvW ( opt.args, &argc );
+							argc--; // читаем до предпоследнего параметра(последний должен быть значением)
+							for ( int i = 0; i < argc; i++ ) {
+								if ( wcscmp ( pArg[i], L"-p" ) == 0 || wcscmp ( pArg[i], L"--port" ) == 0 ) {
+									wcsncpy ( tsUrl + 17, pArg[i + 1], 5 );
+									break;
+								}
+							}
+							GlobalFree ( pArg );
+						}
 						StartServer ( checkTS() );
 					}
 					break;						
 
 				case ID_RESTART:
 					SetWindowText ( hConsole, L"" );
-					StopServer ();
-					StartServer ( checkTS() );
+					SendMessage ( hWnd, WM_COMMAND, ID_STOP, 0 );
+					SendMessage ( hWnd, WM_COMMAND, ID_START, 0 );
 					break;
 
 				case ID_OPENWEB:
-					ShellExecute ( NULL, L"open", tsUrl, NULL, NULL, SW_SHOW );
+					if( ServerRunning() ) ShellExecute ( NULL, L"open", tsUrl, NULL, NULL, SW_SHOW );
 					break;
 
 				case ID_COPY:
@@ -239,29 +255,13 @@ LRESULT CALLBACK MainWinProc ( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			}
 			break;
 
-		case UM_SERVERSTARTED: // ТС стартовал
+		case UM_SERVERSTARTED:																		// TS стартовал
 			SendMessage ( hWnd, UM_SETSTATUS, ( WPARAM ) TRUE, 0 );
-			verChk = opt.GrabVerLines;
-			wStrReplace( &TS_version, L"TorrServer" );
-			SetWindowText ( hWnd, TS_version );
-			wcscpy ( tsUrl + 17, L"8090" );
-			if ( wParam ) { // сервер запущен с параметрами - ищем порт
-				int	 argc;
-				LPWSTR * pArg = CommandLineToArgvW ( ( LPWSTR ) wParam, &argc );
-				argc--; // читаем до предпоследнего параметра(последний должен быть значением)
-				for ( int i = 0; i < argc; i++ ) {
-					if ( wcscmp ( pArg[i], L"-p" ) == 0 || wcscmp ( pArg[i], L"--port" ) == 0 ) {
-						wcsncpy ( tsUrl + 17, pArg[i + 1], 5 );
-						break;
-					}
-				}
-				GlobalFree ( pArg );
-			}
 			break;
 
-		case UM_SERVERSTOPPED: // ТС умер
+		case UM_SERVERSTOPPED:																		// TS умер
 			SendMessage ( hWnd, UM_SETSTATUS, ( WPARAM ) FALSE, 0 );
-			if( wParam == PROCESSTERMINATED) return 0; // процесс TS был принудительно убит, никаких действий не требуется
+			if( wParam == PROCESSTERMINATED) return 0;												// процесс TS был принудительно убит, никаких действий не требуется
 			if( wParam > PROCESSTERMINATED ) SendMessage ( hWnd, WM_COMMAND, ID_SHOW, 0 );
 			switch( wParam ){
 				case TSNOTFOUND:
@@ -278,6 +278,9 @@ LRESULT CALLBACK MainWinProc ( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				case ONDEAD_CLOSE:
 					SendMessage ( hWnd, WM_COMMAND, ID_EXIT, 0 );
 					break;
+				case ONDEAD_SHOW:
+					SendMessage ( hWnd, WM_COMMAND, ID_SHOW, 0 );
+					break;					
 				case ONDEAD_RESTART:
 					SendMessage ( hWnd, WM_COMMAND, ID_RESTART, 0 );
 					break;
@@ -336,15 +339,11 @@ LRESULT CALLBACK MainWinProc ( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 						PostMessage ( hWnd, WM_NULL, 0, 0 ); // otherwise menu locks hDlg ???????
 					}
 					break;
-				case WM_LBUTTONUP: // WM_LBUTTONDBLCLK:
-					switch( opt.OnIconClick ) {
-						case ONCLICK_SHOWHIDE:
-							SendMessage ( hWnd, WM_COMMAND, ( WPARAM ) ID_SHOWHIDE, 0 );
-							break;
-						case ONCLICK_OPENWEB:
-							SendMessage ( hWnd, WM_COMMAND, ( WPARAM ) ID_OPENWEB, 0 );
-							break;
-					}
+				case WM_LBUTTONUP:
+					if( !opt.DblIconClick ) OnClick();
+					break;
+				case WM_LBUTTONDBLCLK:
+					if( opt.DblIconClick )  OnClick();
 					break;
 			}
 			break;
@@ -502,4 +501,18 @@ void center_dlg( HWND hWnd ){
 		rcOwner.left + ( rc.right / 2 ),
 		rcOwner.top + ( rc.bottom / 2 ),
 		0, 0, SWP_NOSIZE | SWP_NOZORDER );
+}
+
+void OnClick(){
+	switch( opt.OnIconClick ) {
+		case ONCLICK_SHOWHIDE:
+			SendMessage ( hMainWnd, WM_COMMAND, ( WPARAM ) ID_SHOWHIDE, 0 );
+			break;
+		case ONCLICK_OPENWEB:
+			SendMessage ( hMainWnd, WM_COMMAND, ( WPARAM ) ID_OPENWEB, 0 );
+			break;
+		case ONCLICK_RESTART:
+			SendMessage ( hMainWnd, WM_COMMAND, ( WPARAM ) ID_RESTART, 0 );
+			break;
+	}
 }
