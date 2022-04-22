@@ -65,7 +65,7 @@ DWORD WINAPI Service_THRD ( void *data ) {
 void StartServer ( LPCWSTR tsFileName ) {
 	if( !ServerRunning() ) {
 		CloseHandle ( hThrd );
-		hThrd = CreateThread ( NULL, 65536, Service_THRD, ( void* ) tsFileName, STACK_SIZE_PARAM_IS_A_RESERVATION, NULL );	// стек потока 64кб.
+		hThrd = CreateThread ( NULL, 0, Service_THRD, ( void* ) tsFileName, 0, NULL );
 	}
 }
 
