@@ -12,7 +12,7 @@ DWORD WINAPI Service_THRD ( void *data ) {
 	DWORD exitCode = EXIT_SUCCESS;
 	if ( data != NULL ) {																	// в data LPSTR на имя экзешника TS
 		HANDLE hStdOutRd, hStdOutWr;
-		SECURITY_ATTRIBUTES sa = { sizeof ( SECURITY_ATTRIBUTES ), NULL, TRUE };			// nLength, lpSecurityDescriptor, bInheritHandle
+		SECURITY_ATTRIBUTES sa = { sizeof ( SECURITY_ATTRIBUTES ), NULL, TRUE };			// { nLength, lpSecurityDescriptor, bInheritHandle }
 		if ( CreatePipe ( &hStdOutRd, &hStdOutWr, &sa, 0 ) ) {
 			SetHandleInformation( hStdOutRd, HANDLE_FLAG_INHERIT, 0 );
 			STARTUPINFO si = {0};

@@ -15,7 +15,7 @@
 ; !define APPVERSION "1.1.65"
 !endif
 
-!define TSLVERSION "1.7.0"
+!define TSLVERSION "1.7.1"
 
 !define COPYRIGHT_STR "Copyright © 2022 YouROK, Noperkot"
 
