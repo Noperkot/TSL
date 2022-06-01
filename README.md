@@ -45,7 +45,7 @@ args | REG_SZ |  | Аргументы командной строки TS
 
 </details>
 
-> Для ленивых - [**инсталлятор**](../../releases/latest/download/TorrServer_MatriX.114_setup.exe) (TorrServer MatriX.114 + лаунчер).  
+> Для ленивых - [**инсталлятор**](../../releases/latest/download/TorrServer_MatriX.116_setup.exe) (TorrServer MatriX.116 + лаунчер).  
 > Для работы с сервером можно использовать любой MatriX-совместимый TorrServe клиент, в том числе расширение для браузеров **TorrServer Adder** ( [Chrome](https://chrome.google.com/webstore/detail/torrserver-adder/ihphookhabmjbgccflngglmidjloeefg?hl=ru), [Firefox](https://addons.mozilla.org/ru/firefox/addon/torrserver-adder/) ).  
 
 Обсуждение TorrServer'а и всего, что с ним связано:
