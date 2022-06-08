@@ -22,6 +22,11 @@ if [ -z "$1" ]
 	then
 		find `dirname $0` -mindepth 1 -maxdepth 1 -type d | sort -n | while read dir; do dwnldAll "$dir"; done || exit 1
 	else
+		mkdir -p "$1"
+		echo "#### TorrServer executables should be here.  " > "$1/README.md"
+		echo "***" >> "$1/README.md"
+		echo "TorrServer-windows-386.exe  " >> "$1/README.md"
+		echo "TorrServer-windows-amd64.exe  " >> "$1/README.md"
 		dwnldAll "$1"
 fi
 
