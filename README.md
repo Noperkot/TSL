@@ -51,11 +51,12 @@ args | REG_SZ |  | Аргументы командной строки TS
 Обсуждение TorrServer'а и всего, что с ним связано:
 - [на 4PDA](https://4pda.to/forum/index.php?showtopic=889960)
 - [в Telegram](https://t.me/TorrServe)
-***
-<details>
-<summary>Скриншоты</summary>  
 
-![](https://raw.githubusercontent.com/Noperkot/TSL/master/img/screen1.png)  
 
-![](https://raw.githubusercontent.com/Noperkot/TSL/master/img/screen2.png)  
+<details><summary>Скриншоты</summary><br \>  
+  
+![](/img/screen1.png?raw=true)  
+
+![](/img/screen2.png?raw=true)  
+
 </details>
