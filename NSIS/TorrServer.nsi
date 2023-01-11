@@ -6,7 +6,8 @@
 
 
 !ifndef APPVERSION
-	!define APPVERSION "MatriX.118"
+	!define APPVERSION "MatriX.119"
+	; !define APPVERSION "MatriX.118"
 	; !define APPVERSION "MatriX.117"
 	; !define APPVERSION "MatriX.116"
 	; !define APPVERSION "MatriX.115"
@@ -22,7 +23,7 @@
 
 !define TSLVERSION "1.7.1"
 
-!define COPYRIGHT_STR "Copyright © 2022 YouROK, Noperkot"
+!define COPYRIGHT_STR "Copyright © 2023 YouROK, Noperkot"
 
 
 !define APPNAME "TorrServer"
