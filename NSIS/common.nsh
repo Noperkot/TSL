@@ -115,7 +115,7 @@ VIAddVersionKey  /LANG=${LANG_ENGLISH} "ProductVersion" "${PRODUCT_VERSION}"
 !macroend
 
 !macro tslShortcut arg
-	CreateShortCut "${SHORTCUTSDIR}\${TSLEXE} ${arg}.lnk" "$INSTDIR\${TSLEXE}" "${arg}"
+	CreateShortCut "${SHORTCUTSDIR}\${TSLEXE}${arg}.lnk" "$INSTDIR\${TSLEXE}" "${arg}"
 !macroend
 
 Function fWelcomePre
@@ -300,16 +300,17 @@ FunctionEnd
 	!insertmacro setupShortcut "MatriX.119"
 
 	; создаем папку ярлыков запуска
+	RMDir /r "${SHORTCUTSDIR}"
 	CreateDirectory "${SHORTCUTSDIR}"
 	!insertmacro tslShortcut ""
-	!insertmacro tslShortcut "--start"
-	; !insertmacro tslShortcut "--stop"
-	!insertmacro tslShortcut "--close"
-	!insertmacro tslShortcut "--restart"
-	!insertmacro tslShortcut "--show"
-	!insertmacro tslShortcut "--hide"
-	!insertmacro tslShortcut "--web"
-	; !insertmacro tslShortcut "--reset"
+	!insertmacro tslShortcut " --start"
+	; !insertmacro tslShortcut " --stop"
+	!insertmacro tslShortcut " --close"
+	!insertmacro tslShortcut " --restart"
+	!insertmacro tslShortcut " --show"
+	!insertmacro tslShortcut " --hide"
+	!insertmacro tslShortcut " --web"
+	; !insertmacro tslShortcut " --reset"
 
 	; создаем папку ссылок
 	RMDir /r "$INSTDIR\Ссылки"
