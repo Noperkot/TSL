@@ -45,8 +45,9 @@ args | REG_SZ |  | Аргументы командной строки TS
 
 </details>
 
-> Для ленивых - [**инсталлятор**](../../releases/latest/download/TorrServer_MatriX.120_setup.exe) (TorrServer MatriX.120 + лаунчер).  
-> Для работы с сервером можно использовать любой MatriX-совместимый TorrServe клиент, в том числе расширение для браузеров **TorrServer Adder** ( [Chrome](https://chrome.google.com/webstore/detail/torrserver-adder/ihphookhabmjbgccflngglmidjloeefg?hl=ru), [Firefox](https://addons.mozilla.org/ru/firefox/addon/torrserver-adder/) ).  
+> Для ленивых - [**онлайн-инсталлятор**](../../releases/latest/download/TorrServer_Setup.exe) (TorrServer+Launcher)  
+> По умолчанию устанавливает последние версии продуктов, но при желании версию TorrServer можно задать параметром /V (пример - **"TorrServer_Setup.exe /V MatriX.110"**). Значение версии регистрочувствительно и должно полностью совпадать с тем, что имеется на [гитхабе](https://github.com/YouROK/TorrServer/releases). Примеры ярлыков для установки некоторых версий TorrServer будут располагаться в папке **"Setup\Прошлые версии"** по месту установки.  
+
 
 Обсуждение TorrServer'а и всего, что с ним связано:
 - [на 4PDA](https://4pda.to/forum/index.php?showtopic=889960)
