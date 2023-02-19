@@ -8,7 +8,7 @@ Unicode True
 ${StrRep}
 
 ; ------------------------- Defines -------------------------------------
-!define INSTALLER_VERSION "2.0.0.0"
+!define INSTALLER_VERSION "2.0.0.1"
 !define COPYRIGHT_STR "Copyright © 2023 ${AUTHORS}"
 !define APPNAME "TorrServer"
 !define TSLEXE "tsl.exe"
