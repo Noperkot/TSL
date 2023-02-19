@@ -300,7 +300,6 @@ FunctionEnd
 	!insertmacro setupShortcut "MatriX.119"
 
 	; создаем папку ярлыков запуска
-	RMDir /r "${SHORTCUTSDIR}"
 	CreateDirectory "${SHORTCUTSDIR}"
 	!insertmacro tslShortcut ""
 	!insertmacro tslShortcut " --start"
