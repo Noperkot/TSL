@@ -115,7 +115,7 @@ VIAddVersionKey  /LANG=${LANG_ENGLISH} "ProductVersion" "${PRODUCT_VERSION}"
 !macroend
 
 !macro tslShortcut arg
-	CreateShortCut "${SHORTCUTSDIR}\${TSLEXE} ${arg}.lnk" "$INSTDIR\${TSLEXE}" "${arg}"	
+	CreateShortCut "${SHORTCUTSDIR}\${TSLEXE} ${arg}.lnk" "$INSTDIR\${TSLEXE}" "${arg}"
 !macroend
 
 Function fWelcomePre
