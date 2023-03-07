@@ -1,6 +1,4 @@
-﻿; собирать NSIS 3.04(к нему vt относится лояльней, чем к 3.08), подписывать MD5withRCA
-
-Unicode True
+﻿Unicode True
 
 !include x64.nsh ; ${RunningX64}
 !include FileFunc.nsh ; ${GetOptions}
@@ -47,8 +45,10 @@ Var	TorrServer_ver
 Var	TSL_ver
 Var installedTorrServer_ver
 Var installedTSL_ver
+Var	TorrServerEXE
 Var alreadyInstalled
 Var versionsText
+Var FirewallCheckbox
 Var AutorunCheckbox
 Var DesktopShortcutCheckbox
 Var ChromeCheckbox
@@ -118,7 +118,31 @@ VIAddVersionKey  /LANG=${LANG_ENGLISH} "ProductVersion" "${PRODUCT_VERSION}"
 	CreateShortCut "${SHORTCUTSDIR}\${TSLEXE} ${arg}.lnk" "$INSTDIR\${TSLEXE}" "${arg}"
 !macroend
 
+!macro IsUserAdmin RESULT
+	!define Index "Line${__LINE__}"
+	StrCpy ${RESULT} 0
+	System::Call '*(&i1 0,&i4 0,&i1 5)i.r0'
+	System::Call 'advapi32::AllocateAndInitializeSid(i r0,i 2,i 32,i 544,i 0,i 0,i 0,i 0,i 0, \
+	i 0,*i .R0)i.r5'
+	System::Free $0
+	System::Call 'advapi32::CheckTokenMembership(i n,i R0,*i .R1)i.r5'
+	StrCmp $5 0 ${Index}_Error
+	StrCpy ${RESULT} $R1
+	Goto ${Index}_End
+${Index}_Error:
+	StrCpy ${RESULT} -1
+${Index}_End:
+	System::Call 'advapi32::FreeSid(i R0)i.r5'
+	!undef Index
+!macroend
+
 Function fWelcomePre
+	${If} ${RunningX64}
+		StrCpy $TorrServerEXE "TorrServer-windows-amd64.exe"
+	${Else}
+		StrCpy $TorrServerEXE "TorrServer-windows-386.exe"
+	${EndIf}
+	
 	; проверка уже запущенного экземпляра
 	System::Call 'kernel32::CreateMutex(i 0, i 0, t "TorrServerSetup") i .r1 ?e'
 	Pop $0
@@ -177,7 +201,6 @@ Function fDirectoryPre
 	StrCpy $versionsText "———  $versionsText  ———$\n$\n$\n$0"
 FunctionEnd
 
-
 Function fDirectoryShow
 	;меняем шрифт в окне версий
 	FindWindow $2 "#32770" "" $HWNDPARENT
@@ -206,25 +229,39 @@ FunctionEnd
 
 Function fFinishShow ; добавляем свои чекбоксы на финишную страницу
 
-	${NSD_CreateCheckbox} 120u 110u 100% 10u "&$(_LAUNCH_ON_LOGON_)"
+	${NSD_CreateCheckbox} 120u 105u 100% 10u "&$(_LAUNCH_ON_LOGON_)"
 	Pop $AutorunCheckbox
 	${NSD_SetState} $AutorunCheckbox 1
 	SetCtlColors $AutorunCheckbox "" "ffffff"
-
-	${NSD_CreateCheckbox} 120u 130u 100% 10u "&$(_DESKTOP_SHORTCUT_)"
+		
+	${NSD_CreateCheckbox} 120u 120u 100% 10u "&$(_DESKTOP_SHORTCUT_)"
 	Pop $DesktopShortcutCheckbox
 	${NSD_SetState} $DesktopShortcutCheckbox 1
 	SetCtlColors $DesktopShortcutCheckbox "" "ffffff"
+	
+	; галку брандмауэра показываем только если у пользователя админские права и доступен netsh
+	!insertmacro IsUserAdmin $0
+	${If} $0 == 1
+		ExecDos::exec /TIMEOUT=2000 'netsh advfirewall firewall delete rule name=all program="$INSTDIR\$TorrServerEXE"'
+		Pop $1
+		${If} $1 == 0	; правило успешно удалено
+		${OrIf} $1 == 1	; такого правила не было
+			${NSD_CreateCheckbox} 120u 135u 100% 10u "&$(_ADD_FIREWALL_EXCEPTIONS_)"
+			Pop $FirewallCheckbox
+			${NSD_SetState} $FirewallCheckbox 1
+			SetCtlColors $FirewallCheckbox "" "ffffff"
+		${EndIf}
+	${EndIf}
 
 	${NSD_CreateCheckbox} 120u 155u 100% 10u "&$(_EXTENSION_FOR_) Chrome (web)"
 	Pop $ChromeCheckbox
 	${NSD_SetState} $ChromeCheckbox 0
 	SetCtlColors $ChromeCheckbox "" "ffffff"
 
-	${NSD_CreateCheckbox} 120u 175u 100% 10u "&$(_EXTENSION_FOR_) Firefox (web)"
+	${NSD_CreateCheckbox} 120u 170u 100% 10u "&$(_EXTENSION_FOR_) Firefox (web)"
 	Pop $FirefoxCheckbox
 	${NSD_SetState} $FirefoxCheckbox 0
-	SetCtlColors $FirefoxCheckbox "" "ffffff"
+	SetCtlColors $FirefoxCheckbox "" "ffffff"	
 
 FunctionEnd
 
@@ -236,6 +273,11 @@ Function fFinishLeave ; проверяем чекбоксы на финальн�
 		KillProcDLL::KillProc "TorrServer-windows-386.exe"
 		KillProcDLL::KillProc "TorrServer-windows-amd64.exe"
 		KillProcDLL::KillProc "TorrServer.exe"
+	${EndIf}
+
+	${NSD_GetState} $FirewallCheckbox $0
+	${If} $0 <> 0
+		ExecShellWait '' 'netsh' 'advfirewall firewall add rule name="${APPNAME}" dir=in action=allow program="$INSTDIR\$TorrServerEXE" enable=yes profile=public,private' SW_HIDE
 	${EndIf}
 
 	${NSD_GetState} $AutorunCheckbox $0
@@ -338,6 +380,9 @@ Section Uninstall
 	; Delete Shortcuts
 	Delete "$DESKTOP\${APPNAME}.lnk"
 	RMDir /r "$SMPROGRAMS\${APPNAME}"
+	; Delete firewall rules
+	ExecShellWait '' 'netsh' 'advfirewall firewall delete rule name=all program="$INSTDIR\TorrServer-windows-386.exe"' SW_HIDE
+	ExecShellWait '' 'netsh' 'advfirewall firewall delete rule name=all program="$INSTDIR\TorrServer-windows-amd64.exe"' SW_HIDE
 	; Clean up Application
 	Delete "$INSTDIR\${TSLEXE}"
 	Delete "$INSTDIR\TorrServer-windows-386.exe"
@@ -366,6 +411,9 @@ LangString _REINSTALL_SUBTEXT_ ${LANG_ENGLISH} "Reinstalling is only possible in
 
 LangString _EXTENSION_FOR_ ${LANG_RUSSIAN} "Расширение для" ; $(_EXTENSION_FOR_)
 LangString _EXTENSION_FOR_ ${LANG_ENGLISH} "Extension for"
+
+LangString _ADD_FIREWALL_EXCEPTIONS_ ${LANG_RUSSIAN} "Добавить в исключения брандмауэра" ; $(_ADD_FIREWALL_EXCEPTIONS_)
+LangString _ADD_FIREWALL_EXCEPTIONS_ ${LANG_ENGLISH} "Add to firewall exceptions"
 
 LangString _LAUNCH_ON_LOGON_ ${LANG_RUSSIAN} "Запускать при входе в Windows" ; $(_LAUNCH_ON_LOGON_)
 LangString _LAUNCH_ON_LOGON_ ${LANG_ENGLISH} "Launch on logon"

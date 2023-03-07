@@ -32,7 +32,7 @@
 Section Install
 	!insertmacro commonInstallSection
 	File "..\build\signed\${ONLINE_INSTALLER}"	; онлайн инсталлятор
-	File "${TSLDIR}\${TSLEXE}" ; tsl.exe
+	File "${TSLDIR}\${TSLEXE}"
 	${If} ${RunningX64}
 		File "${TSDIR}\TorrServer-windows-amd64.exe"
 	${Else}

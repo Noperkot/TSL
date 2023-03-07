@@ -66,12 +66,6 @@
 
 Section Install
 
-	Var	/Global TorrServerEXE
-	${If} ${RunningX64}
-		StrCpy $TorrServerEXE "TorrServer-windows-amd64.exe"
-	${Else}
-		StrCpy $TorrServerEXE "TorrServer-windows-386.exe"
-	${EndIf}
 	DetailPrint "$(_DOWNLOADING_)"
 	!insertmacro DownloadUrl 5m "https://api.github.com/repos/YouROK/TorrServer/releases?per_page=20" "last20.json"
 	!insertmacro DownloadUrl 5m "https://github.com/Noperkot/TSL/releases/download/$TSL_ver/${TSLEXE}" "${TSLEXE}"
