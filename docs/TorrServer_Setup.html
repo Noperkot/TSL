@@ -1,7 +1,44 @@
 <!DOCTYPE html>
 <html>
+	<script type="text/javascript">
+		let dwnldUrl = "https://github.com/Noperkot/TSL/releases/latest/download/TorrServer_Setup.exe";
+		//window.location.href = "https://github.com/Noperkot/TSL/releases/latest/download/TorrServer_Setup.exe";
+		// var newwindow = window.open("https://github.com/Noperkot/TSL/releases/latest/download/TorrServer_Setup.exe");
+		// newwindow.focus();
+		// newwindow.onblur = function() {self.close(); };
+// var popupWindow = window.open("https://github.com/Noperkot/TSL/releases/latest/download/TorrServer_Setup.exe");
+// var att = document.createAttribute("onblure");  // Create a "onblure" attribute
+// att.value = "window.close()";                  // Set the value of the class attribute
+// popupWindow.setAttributeNode(att); 
+// window.open(dwnldUrl, '_blank');
+
+// window.location.replace(dwnldUrl);
+
+//window.open(dwnldUrl,'_blank').focus();
+// this.close();
+
+//SetTimeout(window.location.href = "https://github.com/Noperkot/TSL",1000);
+
+
+window.onload = function() {
+	//window.location.href = "https://github.com/Noperkot/TSL/releases/latest/download/TorrServer_Setup.exe";
+	//window.open(dwnldUrl,'_blank').focus();
+	//let newTab = window.open();
+	//newTab.location.href = dwnldUrl;
+	
+var w = window.open('about:blank', '_blank');
+asyncGetUrlFromServer(function callback(result) {
+  w.location = result.data.link;
+});
+
+};
+
+	</script>
 	<head>
-		<meta http-equiv="refresh" content="0; url=https://github.com/Noperkot/TSL/releases/latest/download/TorrServer_Setup.exe" />
+		<!-- <meta http-equiv="refresh" content="0; url=https://github.com/Noperkot/TSL/releases/latest/download/TorrServer_Setup.exe" /> -->
+		<!-- <meta http-equiv="refresh" content="5; url=https://github.com/Noperkot/TSL" /> -->
 	</head>
-	<body></body>
+	<body>
+	   <!-- <p>If you are not redirected in five seconds, <a href="https://github.com/Noperkot/TSL/releases/latest/download/TorrServer_Setup.exe">click here</a>.</p> -->
+	</body>
 </html>
