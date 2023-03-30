@@ -44,14 +44,14 @@ ConsoleFontName | REG_SZ | Lucida Console | Название шрифта
 args | REG_SZ |  | Аргументы командной строки TS
 
 </details>
-<br/>
 
-> Для ленивых - [**онлайн-инсталлятор**](../../releases/latest/download/TorrServer_Setup.exe).  
+# 
+> <a name="installer">Для ленивых - [**онлайн-инсталлятор**](../../releases/latest/download/TorrServer_Setup.exe).  
 Сам скачает все необходимые компоненты (TorrServer+Launcher), разложит по папкам, создаст ярлыки и добавит в исключения брандмауэра. Есть возможность обновления/отката версий торрсервера.  
 > 
 > По умолчанию устанавливает последние версии продуктов, но при желании версию TorrServer можно задать параметром /V (пример - **"TorrServer_Setup.exe /V MatriX.110"**). Значение версии регистрочувствительно и должно полностью совпадать с тем, что имеется на [гитхабе](https://github.com/YouROK/TorrServer/releases). Примеры ярлыков для установки некоторых версий TorrServer будут располагаться в папке **"Setup\Прошлые версии"** по месту установки.  
-<br/>
 
+#
 Обсуждение TorrServer'а и всего, что с ним связано:
 - [на 4PDA](https://4pda.to/forum/index.php?showtopic=889960)
 - [в Telegram](https://t.me/TorrServe)
