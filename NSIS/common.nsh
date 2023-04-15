@@ -312,7 +312,7 @@ FunctionEnd
 	WriteUninstaller "$INSTDIR\${UNINST}.exe"	; деинсталлятор
 
 	; создаем записи в реестре
-	WriteRegStr HKCU "Software\${APPNAME}" "" '"$INSTDIR"'
+	WriteRegStr HKCU "Software\${APPNAME}" "" '"$INSTDIR"' ; убрать "
 	WriteRegStr HKCU "${REG_UNINST_SUBKEY}" "DisplayName" "${APPNAME}"
 	WriteRegStr HKCU "${REG_UNINST_SUBKEY}" "DisplayVersion" "$TorrServer_ver"
 	WriteRegStr HKCU "${REG_UNINST_SUBKEY}" "TSLVersion" "$TSL_ver"
