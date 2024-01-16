@@ -33,7 +33,7 @@ SetCompressor LZMA
 ; SetCompressor BZip2
 ; SetCompress off
 ManifestDPIAware true
-RequestExecutionLevel user
+RequestExecutionLevel admin ; Администраторские права нужны для управления брандмауэром
 AllowRootDirInstall true
 BrandingText " " ; убираем из окна инсталлятора строку строку "Nullsoft Install System v3.08"
 SpaceTexts none ; убираем требуемое место на диске
@@ -118,31 +118,13 @@ VIAddVersionKey  /LANG=${LANG_ENGLISH} "ProductVersion" "${PRODUCT_VERSION}"
 	CreateShortCut "${SHORTCUTSDIR}\${TSLEXE} ${arg}.lnk" "$INSTDIR\${TSLEXE}" "${arg}"
 !macroend
 
-!macro IsUserAdmin RESULT
-	!define Index "Line${__LINE__}"
-	StrCpy ${RESULT} 0
-	System::Call '*(&i1 0,&i4 0,&i1 5)i.r0'
-	System::Call 'advapi32::AllocateAndInitializeSid(i r0,i 2,i 32,i 544,i 0,i 0,i 0,i 0,i 0, \
-	i 0,*i .R0)i.r5'
-	System::Free $0
-	System::Call 'advapi32::CheckTokenMembership(i n,i R0,*i .R1)i.r5'
-	StrCmp $5 0 ${Index}_Error
-	StrCpy ${RESULT} $R1
-	Goto ${Index}_End
-${Index}_Error:
-	StrCpy ${RESULT} -1
-${Index}_End:
-	System::Call 'advapi32::FreeSid(i R0)i.r5'
-	!undef Index
-!macroend
-
 Function fWelcomePre
 	${If} ${RunningX64}
 		StrCpy $TorrServerEXE "TorrServer-windows-amd64.exe"
 	${Else}
 		StrCpy $TorrServerEXE "TorrServer-windows-386.exe"
 	${EndIf}
-	
+
 	; проверка уже запущенного экземпляра
 	System::Call 'kernel32::CreateMutex(i 0, i 0, t "TorrServerSetup") i .r1 ?e'
 	Pop $0
@@ -240,8 +222,9 @@ Function fFinishShow ; добавляем свои чекбоксы на фин�
 	SetCtlColors $DesktopShortcutCheckbox "" "ffffff"
 	
 	; галку брандмауэра показываем только если у пользователя админские права и доступен netsh
-	!insertmacro IsUserAdmin $0
-	${If} $0 == 1
+	UserInfo::GetOriginalAccountType
+    Pop $0	
+	${If} $0 == "Admin"
 		ExecDos::exec /TIMEOUT=2000 'netsh advfirewall firewall delete rule name=all program="$INSTDIR\$TorrServerEXE"'
 		Pop $1
 		${If} $1 == 0	; правило успешно удалено
