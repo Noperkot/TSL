@@ -9,6 +9,10 @@
 #include "main.h"
 #include "dialogs.h"
 
+#define MSGFLT_ADD 1
+#define MSGFLT_REMOVE 2
+typedef BOOL (WINAPI *CWMFEx_t) (HWND, UINT, DWORD); // ChangeWindowMessageFilterEx from user32.lib
+
 enum CMD_E : UINT { CMD_UNRECOGNIZED = 0, CMD_SILENT, CMD_CLOSE, CMD_STOP, CMD_START, CMD_RESTART, CMD_SHOW, CMD_HIDE, CMD_RESET, CMD_OPENWEB };
 const LPCWSTR cmdArgs[] = { L"--silent", L"--close", L"--stop", L"--start", L"--restart", L"--show", L"--hide", L"--reset", L"--web" };
 
@@ -106,8 +110,9 @@ int WINAPI wWinMain ( HINSTANCE hInst, HINSTANCE, LPWSTR args, int ss ) {
 		        NULL
 		    );
 	}
-	
 	if ( hMainWnd ) {
+		CWMFEx_t ChangeWindowMessageFilterEx = (CWMFEx_t)GetProcAddress(GetModuleHandleA("user32.lib"), "ChangeWindowMessageFilterEx");
+		if(ChangeWindowMessageFilterEx) ChangeWindowMessageFilterEx( hMainWnd, WM_DESTROY, MSGFLT_ADD ); // позволяет принимать сообщение WM_DESTROY отправленное из под другого пользователя
 		if ( cmd == CMD_SHOW ) ShowWindow ( hMainWnd, ( opt.WindowMax ) ? SW_MAXIMIZE : SW_SHOW );
 		UpdateWindow ( hMainWnd );
 		if ( cmd != CMD_STOP ) SendMessage ( hMainWnd, WM_COMMAND, ID_START, 0 ); // запускаем сервер
@@ -120,6 +125,7 @@ int WINAPI wWinMain ( HINSTANCE hInst, HINSTANCE, LPWSTR args, int ss ) {
 				DispatchMessage ( &msg );
 			}
 		}
+		if(ChangeWindowMessageFilterEx) ChangeWindowMessageFilterEx( hMainWnd, WM_DESTROY, MSGFLT_REMOVE );
 	} else MessageBox ( 0, L"Unable to create a window", _PRODUCTNAME_, MB_OK | MB_APPLMODAL | MB_ICONERROR );
 	
 	UnregisterClass ( CHIL_WINCLASS, hInst );
@@ -127,12 +133,6 @@ int WINAPI wWinMain ( HINSTANCE hInst, HINSTANCE, LPWSTR args, int ss ) {
 	DestroyIcon( hFavIcon );
 	return EXIT_SUCCESS;  //msg.wParam;
 }
-
-
-
-
-
-
 
 CMD_E cmd_parser ( LPCWSTR args ) { // парсер параметров командной строки
 	CMD_E result = CMD_UNRECOGNIZED;
