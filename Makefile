@@ -14,8 +14,8 @@ LDFLAGS  = -m32 -municode -s -static -mwindows
 # -Wl,--stack,65536 -Wl,--heap,65536
 
 SRC_EXT = cpp c
-OBJ_DIR = obj
 BLD_DIR = build
+OBJ_DIR = $(BLD_DIR)/obj
 SRC_DIR = src
 RES_DIR = src/res
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(SRC_DIR)/*.c)
