@@ -59,8 +59,8 @@ args | REG_SZ |  | Аргументы командной строки TS
 #
 <details><summary>Скриншоты</summary><br \>  
   
-![](/img/screen1.png?raw=true)  
+![](/doc/img/screen1.png?raw=true)  
 
-![](/img/screen2.png?raw=true)  
+![](/doc/img/screen2.png?raw=true)  
 
 </details>
