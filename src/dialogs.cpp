@@ -292,12 +292,12 @@ LRESULT CALLBACK MainWinProc ( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				WORD working_icon, tray_icon;
 				UINT MenuWebOpenEn;
 				if ( wParam ) {
-					res_load ( STR_WORKING, &StatusText );
+					rcString ( STR_WORKING, &StatusText );
 					working_icon = CGREN_ICON;
 					tray_icon = FAV_ICON;
 					MenuWebOpenEn = MF_ENABLED;
 				} else {
-					res_load ( STR_STOPPED, &StatusText );
+					rcString ( STR_STOPPED, &StatusText );
 					working_icon = CRED_ICON;
 					tray_icon = INACTIVE_ICON;
 					MenuWebOpenEn = MF_GRAYED;
@@ -381,9 +381,9 @@ BOOL CALLBACK OptDlgProc ( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
 				SendMessage ( hWnd, WM_SETICON, ICON_SMALL, ( LPARAM ) LoadIcon ( GetModuleHandle ( NULL ), MAKEINTRESOURCE ( FAV_ICON ) ) );	// 	иконку в заголовок окна
 				LPWSTR buf = NULL;
 				// локализуем из ресурсов
-				SetWindowText ( hWnd, res_load ( STR_OPTIONS, &buf ) );
-				SetDlgItemText ( hWnd, IDC_CMDLINE_LABEL, res_load ( STR_TSARGS, &buf ) );
-				SetDlgItemText ( hWnd, IDCANCEL, res_load ( STR_CANCEL, &buf ) );
+				SetWindowText ( hWnd, rcString ( STR_OPTIONS, &buf ) );
+				SetDlgItemText ( hWnd, IDC_CMDLINE_LABEL, rcString ( STR_TSARGS, &buf ) );
+				SetDlgItemText ( hWnd, IDCANCEL, rcString ( STR_CANCEL, &buf ) );
 				free ( buf );
 				SetDlgItemText ( hWnd, IDC_ARGS, opt.args );
 				center_dlg ( hWnd );
@@ -423,7 +423,7 @@ BOOL CALLBACK AboutDlgProc ( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 
 		case WM_INITDIALOG: {
 				SendMessage ( hWnd, WM_SETICON, ICON_SMALL, ( LPARAM ) LoadIcon ( GetModuleHandle ( NULL ), MAKEINTRESOURCE ( FAV_ICON ) ) );	// 	иконку в заголовок окна
-				LPWSTR caption = res_load ( STR_ABOUT );
+				LPWSTR caption = rcString ( STR_ABOUT );
 				SetWindowText ( hWnd, caption );
 				free ( caption );
 				hFont = CreateFont ( fontSize ( hWnd, 8 ), 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Microsoft Sans Serif" );

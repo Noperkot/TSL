@@ -11,7 +11,7 @@ extern OPTIONS_S opt;
 extern HWND hMainWnd;
 
 LPWSTR wStrReplace ( LPWSTR *dst, LPCWSTR src );
-LPWSTR res_load( UINT idsText, LPWSTR *buf = NULL );
+LPWSTR rcString( UINT idsText, LPWSTR *buf = NULL );
 bool isX64();
 LPCWSTR FileExists ( LPCWSTR szPath );
 LPCWSTR checkTS();

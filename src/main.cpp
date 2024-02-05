@@ -160,16 +160,16 @@ bool set_dir() { // установка текущей директории из 
 
 
 LPWSTR wStrReplace ( LPWSTR *dst, LPCWSTR src ) { // создание новой строки с освобождением памяти от предыдущей
-	free ( *dst );
+	LPWSTR olddst = *dst;
 	if ( src ) {
-		size_t len = wcslen ( src );
-		*dst = ( LPWSTR ) malloc ( len * sizeof ( wchar_t ) );
+		*dst = ( LPWSTR ) malloc ( ( wcslen ( src ) + 1 ) * sizeof ( wchar_t ) );
 		wcscpy ( *dst, src );
-	} else *dst = NULL;
+	} else  *dst = NULL;
+	free ( olddst );
 	return *dst;
 }
 
-LPWSTR res_load ( UINT idsText, LPWSTR *pBuf ) { // загрузка строки из реестра
+LPWSTR rcString ( UINT idsText, LPWSTR *pBuf ) { // загрузка строки из ресурсов
 	LPWSTR ptmp;
 	int len = LoadString ( NULL, idsText, ( LPWSTR ) &ptmp, 0 );
 	if ( len++ ) {
@@ -221,7 +221,7 @@ LPWSTR ExePath ( LPCWSTR prefix, LPCWSTR postfix ) { // Создает стро�
 
 void rcMessageBox ( HWND hWnd, UINT idsText, UINT uType ) { // MessageBox из ресурсов
 	LPWSTR Tbuf = NULL;
-	MessageBox ( hWnd, res_load ( idsText, &Tbuf ), _PRODUCTNAME_, uType );
+	MessageBox ( hWnd, rcString ( idsText, &Tbuf ), _PRODUCTNAME_, uType );
 	free ( Tbuf );
 }
 

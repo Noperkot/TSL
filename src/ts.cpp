@@ -26,7 +26,7 @@ DWORD WINAPI Service_THRD ( void *data ) {
 				int sz = wcslen ( ( LPCWSTR ) data ) + 1 + wcslen ( opt.args ) + 1;
 				cmdLine = ( LPWSTR ) malloc ( sz * sizeof ( wchar_t ) );
 				wcscpy ( cmdLine, ( LPCWSTR ) data );
-				wcscat ( cmdLine, TEXT ( " " ) );
+				wcscat ( cmdLine, L" " );
 				wcscat ( cmdLine, opt.args );
 			}
 			memset( &pi, 0, sizeof( PROCESS_INFORMATION ) );
