@@ -2,7 +2,7 @@
 #define TS_H
 
 enum ExitCodes_E { PROCESSTERMINATED = 31415, TSNOTFOUND, CREATEPIPEERROR, CREATEPROCESSERROR };
-void StartServer ( LPCWSTR tsFileName );
+void StartServer( LPCWSTR tsFileName );
 void StopServer();
 bool ServerRunning();
 
