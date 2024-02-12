@@ -11,7 +11,7 @@
 #include "dialogs.h"
 #include "ts.h"
 
-LPWSTR TS_version = NULL;										// тут храним сграбленную версию TS
+LPWSTR TS_version = NULL;										// тут храним версию TS
 
 /************************************** MAIN ***********************************************/
 LRESULT CALLBACK MainWinProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
@@ -36,9 +36,9 @@ LRESULT CALLBACK MainWinProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam 
 		TrayIconData.uCallbackMessage = UM_TRAYACTION;
 		TrayIconData.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
 		_uTaskbarRestartMessage = RegisterWindowMessage( L"TaskbarCreated" );	// подписываемся на сообщение "TaskbarCreated" после падения explorer.exe
-		SendMessage( hWnd, _uTaskbarRestartMessage, 0, 0 );					// имитируем падение проводника для создания икони в трее
+		SendMessage( hWnd, _uTaskbarRestartMessage, 0, 0 );						// имитируем падение проводника для создания икони в трее
 		hFormMenu = GetMenu( hWnd );
-		hTrayMenu = LoadMenu( NULL, MAKEINTRESOURCE( IDR_TRAYMENU ) );		// подгружаем меню для иконки в трее
+		hTrayMenu = LoadMenu( NULL, MAKEINTRESOURCE( IDR_TRAYMENU ) );			// подгружаем меню для иконки в трее
 		hConsole = CreateWindow( WC_EDIT,
 		                         NULL,
 		                         ES_MULTILINE | ES_READONLY | WS_VSCROLL  | WS_CHILD | WS_VISIBLE | ( ( opt.TextWrapping.get() ) ? 0 : WS_HSCROLL ),
@@ -76,7 +76,7 @@ LRESULT CALLBACK MainWinProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam 
 		if( ( HWND ) lParam == hConsole ) {
 			SetTextColor( ( HDC ) wParam, opt.ConsoleFontColor.get() );			// цвет шрифта
 			SetBkMode( ( HDC ) wParam, TRANSPARENT );
-			return ( LRESULT ) BkBrush;												// цвет фона
+			return ( LRESULT ) BkBrush;											// цвет фона
 		} else return DefWindowProc( hWnd, msg, wParam, lParam );
 		break;
 
@@ -346,7 +346,7 @@ LRESULT CALLBACK MainWinProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam 
 
 	case WM_INITMENUPOPUP: // клик по меню
 		if( ( HMENU )wParam == GetSubMenu( hFormMenu, 1 ) ) {  // это подменю настроек
-			CheckMenuItem( ( HMENU )wParam, IDM_AUTOSTART, MF_BYCOMMAND | ( Autostart() ) ? MF_CHECKED : MF_UNCHECKED );  // устанавливаем сохраненную галку автозагрузки
+			CheckMenuItem( ( HMENU )wParam, IDM_AUTOSTART, MF_BYCOMMAND | ( Autostart() ) ? MF_CHECKED : MF_UNCHECKED );  // устанавливаем галку автозагрузки в соответствии со значением в реестре
 		}
 		break;
 

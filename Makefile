@@ -11,7 +11,6 @@ LNK = $(CXX)
 CXXFLAGS = -m32 -municode -O3 -Wall
 CFLAGS   = -m32 -municode -O3 -Wall
 LDFLAGS  = -m32 -municode -s -static -mwindows
-# -Wl,--stack,65536 -Wl,--heap,65536
 
 SRC_EXT = cpp c
 BLD_DIR = build

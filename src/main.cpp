@@ -15,7 +15,7 @@ typedef BOOL ( WINAPI *CWMFEx_t )( HWND, UINT, DWORD );  // ChangeWindowMessageF
 bool set_dir();
 
 HWND hMainWnd = 0;
-BOOL silent = false;
+BOOL silent;
 
 int WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR args, int ss ) {
 	enum { CMD_STOP, CMD_START, CMD_RESTART, CMD_HIDE, CMD_SHOW, CMD_OPENWEB };
@@ -94,6 +94,7 @@ int WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR args, int ss ) {
 		           );
 	}
 	if( hMainWnd ) {
+		silent = false;
 		CWMFEx_t ChangeWindowMessageFilterEx = ( CWMFEx_t ) GetProcAddress( GetModuleHandleA( "user32.lib" ), "ChangeWindowMessageFilterEx" );
 		if( ChangeWindowMessageFilterEx ) ChangeWindowMessageFilterEx( hMainWnd, WM_DESTROY, MSGFLT_ADD );   // позволяет принимать сообщение WM_DESTROY отправленное из под другого пользователя
 		if( act == CMD_SHOW ) ShowWindow( hMainWnd, ( opt.WindowMax.get() ) ? SW_MAXIMIZE : SW_SHOW );

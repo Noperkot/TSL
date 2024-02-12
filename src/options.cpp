@@ -10,6 +10,8 @@
 #define REG_SUBKEY		L"Software\\" TS_KEYNAME
 #define REG_RUN_SUBKEY	L"Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 
+OPT opt;
+
 void Autostart( bool yes ) {
 	HKEY hKey;
 	if( RegOpenKeyEx( REG_HKEY, REG_RUN_SUBKEY, 0, KEY_WRITE, &hKey ) == ERROR_SUCCESS ) {
@@ -178,14 +180,6 @@ OPT::_arg_::~_arg_(){
 }
 */
 
-OPT::_ini_::_ini_( OPT * parent ): path( NULL ) {
-	wStrReplace( &path, parent->arg.v[0] );
-	* wcsrchr( path, L'\\' ) = L'\0';
-	wStrReplace( &path, L"", path, L"\\tsl.ini" );
-	DWORD dwAttrib = GetFileAttributes( path );
-	if( dwAttrib == INVALID_FILE_ATTRIBUTES || ( dwAttrib & FILE_ATTRIBUTE_DIRECTORY ) ) wStrReplace( &path );
-}
-
 template<typename T>
 BOOL OPT::_arg_::search( LPCWSTR name, T cb ) {
 	for( int i = 1; i < c ; i++ ) {
@@ -202,6 +196,14 @@ BOOL OPT::_arg_::search( LPCWSTR name ) {
 	return search( name, []( LPCWSTR ) {} );
 }
 
+OPT::_ini_::_ini_( OPT * parent ): path( NULL ) {
+	wStrReplace( &path, parent->arg.v[0] );
+	* wcsrchr( path, L'\\' ) = L'\0';
+	wStrReplace( &path, L"", path, L"\\tsl.ini" );
+	DWORD dwAttrib = GetFileAttributes( path );
+	if( dwAttrib == INVALID_FILE_ATTRIBUTES || ( dwAttrib & FILE_ATTRIBUTE_DIRECTORY ) ) wStrReplace( &path );
+}
+
 DWORD rgb2bgr( DWORD rgb ) {
 	return ( rgb & 0x00ff00 ) | ( rgb >> 16 & 0x0000ff ) | ( rgb << 16 & 0xff0000 );
 }
@@ -210,5 +212,3 @@ OPT::OPT() {
 	ConsoleBkColor.set(	rgb2bgr( ConsoleBkColor.get() ) ) ;
 	ConsoleFontColor.set( rgb2bgr( ConsoleFontColor.get() ) );
 }
-
-OPT opt;
