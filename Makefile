@@ -2,15 +2,14 @@
 # System: MinGW on Windows under armLinux
 
 PREFIX = /usr/bin/i686-w64-mingw32
-EXECUTABLE = tsl.exe
+EXECUTABLE ?= tsl.exe
 
 CXX = $(PREFIX)-g++
 WRS = $(PREFIX)-windres
 LNK = $(CXX)
 
-CXXFLAGS = -m32 -municode -O3 -Wall
-CFLAGS   = -m32 -municode -O3 -Wall
-LDFLAGS  = -m32 -municode -s -static -mwindows
+CXXFLAGS ?= -m32 -municode -Wall -Os -fno-exceptions 
+LDFLAGS  ?= -m32 -municode -mwindows -s -static -Wl,--no-insert-timestamp -Wl,--gc-sections
 
 SRC_EXT = cpp c
 BLD_DIR = build
