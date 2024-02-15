@@ -173,7 +173,7 @@ VOID OPT::_int_::set( INT val ) {
 
 INT OPT::_int_::load() {
 	noSave = loadARG();
-	if( !noSave ) if( !loadINI() )  loadREG();
+	if( !noSave ) if( !loadINI() ) loadREG();
 	return val;
 }
 void OPT::_int_::save( INT val ) {
