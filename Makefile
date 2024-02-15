@@ -2,21 +2,18 @@
 # System: MinGW on Windows under armLinux
 
 PREFIX = /usr/bin/i686-w64-mingw32
-EXECUTABLE = tsl.exe
+EXECUTABLE ?= tsl.exe
 
 CXX = $(PREFIX)-g++
 WRS = $(PREFIX)-windres
 LNK = $(CXX)
 
-CXXFLAGS = -m32 -municode -O2 -Wall
-CFLAGS   = -m32 -municode -O2 -Wall
-LDFLAGS  = -m32 -municode -s -static -mwindows
-# -Wl,--stack,65536 -Wl,--heap,65536
-
+CXXFLAGS ?= -m32 -municode -Wall -Os -fno-exceptions 
+LDFLAGS  ?= -m32 -municode -mwindows -s -static -Wl,--no-insert-timestamp -Wl,--gc-sections
 
 SRC_EXT = cpp c
-OBJ_DIR = obj
 BLD_DIR = build
+OBJ_DIR = $(BLD_DIR)/obj
 SRC_DIR = src
 RES_DIR = src/res
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(SRC_DIR)/*.c)
@@ -28,7 +25,7 @@ $(EXECUTABLE): $(OBJ_DIR) $(BLD_DIR) $(OBJECTS)
 	@echo -n Linking $(EXECUTABLE)
 	@$(LNK) $(OBJECTS) -o $(BLD_DIR)/$(EXECUTABLE) $(LDFLAGS)
 	@ #upx -9 $(BLD_DIR)/$(EXECUTABLE)
-	@ #echo $(EXECUTABLE) `du -sh $(BLD_DIR)/$(EXECUTABLE) | cut -f1` 
+	@ #echo $(EXECUTABLE) `du -sh $(BLD_DIR)/$(EXECUTABLE) | cut -f1`
 	@echo " -" `ls -lh $(BLD_DIR)/$(EXECUTABLE) | awk '{print $$5}'`
 	@echo
 
@@ -44,15 +41,15 @@ $(OBJ_DIR)/resource.o: $(RES_DIR)/resource.rc $(RES_DIR)/resource.h $(RES_DIR)/x
 	@iconv -f UTF-16LE -t UTF-8 $(RES_DIR)/resource.rc -o $(RES_DIR)/resource_utf8.rc
 	@$(WRS) --codepage=65001 -i $(RES_DIR)/resource_utf8.rc -o $(OBJ_DIR)/resource.o
 	@rm $(RES_DIR)/resource_utf8.rc
-	
-$(OBJ_DIR)/version.o: $(RES_DIR)/version.rc $(RES_DIR)/version.h Makefile 
+
+$(OBJ_DIR)/version.o: $(RES_DIR)/version.rc $(RES_DIR)/version.h Makefile
 	@echo Compile $<
 	@$(WRS) --codepage=65001 -i $< -o $@
 
 $(OBJ_DIR):
 	@echo Create dir \'$(OBJ_DIR)\'
 	@mkdir -p $(OBJ_DIR)
-	
+
 $(BLD_DIR):
 	@echo Create dir \'$(BLD_DIR)\'
 	@mkdir -p $(BLD_DIR)
@@ -60,20 +57,3 @@ $(BLD_DIR):
 clean:
 	@rm -f $(OBJ_DIR)/*
 	@rm -f $(BLD_DIR)/$(EXECUTABLE)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

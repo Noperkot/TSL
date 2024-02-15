@@ -13,9 +13,9 @@
 #define IDM_AUTOSTART           10001
 #define IDM_ABOUT               10002
 #define IDR_TRAYMENU            11000
-#define FAV_ICON                100
-#define INACTIVE_ICON           101
-#define CGREN_ICON              102
+#define TSLOGO_ICON                100
+#define TSSTOP_ICON           101
+#define CGRN_ICON             102
 #define CRED_ICON               103
 #define STR_NEED_TORSERVER32    1
 #define STR_NEED_TORSERVER64    2
@@ -26,6 +26,7 @@
 #define STR_RESETTETTINGS       7
 #define STR_WORKING             8
 #define STR_STOPPED             9
+#define STR_STARTING            10
 #define IDR_ACCEL1              1
 #define IDM_OPTIONS             10003
 #define IDR_XPMANIFEST1         1
