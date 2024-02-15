@@ -11,7 +11,7 @@
 #include "dialogs.h"
 #include "ts.h"
 
-LPWSTR TS_version = NULL;										// тут храним версию TS
+static wStr TS_version( L"TorrServer" );										// тут храним версию TS
 
 /************************************** MAIN ***********************************************/
 LRESULT CALLBACK MainWinProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
@@ -67,7 +67,6 @@ LRESULT CALLBACK MainWinProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam 
 		SB_Height = rect.bottom - rect.top;
 		int iStatusWidths[] = { 2, 2 + SB_Height * 8 / 10, -1 };				// позиции X разделителей статусбара. -1 - секция до конца
 		SendMessage( hStatusBar, SB_SETPARTS, 3, ( LPARAM ) iStatusWidths );	// разбиваем статусбар на части
-		wStrReplace( &TS_version, L"TorrServer" );
 		SendMessage( hWnd, UM_SETSTATUS, ( WPARAM ) STR_STOPPED, 0 );
 	}
 	break;
@@ -150,7 +149,8 @@ LRESULT CALLBACK MainWinProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam 
 				SetWindowText( hConsole, L"" );
 				verChk = opt.GrabVerLines.get();
 				wcscpy( tsUrl + 17, L"8090" );
-				LPWSTR tmp = wStrReplace( NULL, opt.args.get() ), p = wcstok( tmp, L" =" );
+				wStr tmp( opt.args.get() );
+				LPWSTR p = wcstok( tmp.get(), L" =" );
 				while( p ) {  // ищем порт в параметрах запуска TS
 					if( wcscmp( p, L"-p" ) == 0 || wcscmp( p, L"--p" ) == 0 || wcscmp( p, L"-port" ) == 0 || wcscmp( p, L"--port" ) == 0 ) {
 						p = wcstok( NULL, L" =" );
@@ -159,7 +159,6 @@ LRESULT CALLBACK MainWinProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam 
 					}
 					p = wcstok( NULL, L" =" );
 				}
-				free( tmp );
 				PostMessage( hWnd, UM_SETSTATUS, ( WPARAM ) STR_STARTING, 0 );
 				StartServer( checkTS() );
 			}
@@ -218,8 +217,8 @@ LRESULT CALLBACK MainWinProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam 
 				if( p ) p += 8;
 			}
 			if( p ) {																		// Формируем глобальную строку TS_version содержащую версию торрсервера
-				wStrReplace( &TS_version, L"TorrServer", p );
-				wcstok( TS_version, L"," );													// отсекаем мусор после запятой
+				TS_version.set( L"TorrServer", p );
+				wcstok( TS_version.get(), L"," );											// отсекаем мусор после запятой
 				SendMessage( hWnd, UM_SETSTATUS, ( WPARAM ) STR_WORKING, 0 );
 				verChk = 0;
 			} else verChk--;
@@ -248,7 +247,7 @@ LRESULT CALLBACK MainWinProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam 
 		break;
 
 	case UM_SERVERSTOPPED:																	// TS умер
-		wStrReplace( &TS_version, L"TorrServer" );
+		TS_version.set( L"TorrServer" );
 		SendMessage( hWnd, UM_SETSTATUS, ( WPARAM ) STR_STOPPED, 0 );
 		if( wParam == PROCESSTERMINATED ) return 0;											// процесс TS был принудительно убит, никаких действий не требуется
 		if( wParam > PROCESSTERMINATED ) SendMessage( hWnd, WM_COMMAND, ID_SHOW, 0 );
@@ -296,17 +295,15 @@ LRESULT CALLBACK MainWinProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam 
 		                  sbIconSize,
 		                  LR_DEFAULTCOLOR
 		              );
-		LPWSTR StatusText = rcString( NULL, wParam );					  
 		SendMessage( hStatusBar, SB_SETICON, 1, ( LPARAM ) hStatusIcon );
-		SendMessage( hStatusBar, SB_SETTEXT, 2, ( LPARAM ) StatusText );
-		free( StatusText );
-		wcscpy( TrayIconData.szTip, TS_version );
+		SendMessage( hStatusBar, SB_SETTEXT, 2, ( LPARAM ) wStr( wParam ).get() );
+		wcscpy( TrayIconData.szTip, TS_version.get() );
 		DestroyIcon( TrayIconData.hIcon );
 		TrayIconData.hIcon = LoadIcon( GetModuleHandle( NULL ), MAKEINTRESOURCE( st.trIcon ) );
 		Shell_NotifyIcon( NIM_MODIFY, &TrayIconData );
 		EnableMenuItem( hFormMenu, ID_OPENWEB, MF_BYCOMMAND | st.webEn );
 		EnableMenuItem( hTrayMenu, ID_OPENWEB, MF_BYCOMMAND | st.webEn );
-		SetWindowText( hWnd, TS_version );
+		SetWindowText( hWnd, TS_version.get() );
 	}
 	break;
 
@@ -365,13 +362,11 @@ BOOL CALLBACK OptDlgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
 	switch( msg ) {
 
 	case WM_INITDIALOG: {
-		SendMessage( hWnd, WM_SETICON, ICON_SMALL, ( LPARAM ) LoadIcon( GetModuleHandle( NULL ), MAKEINTRESOURCE( TSLOGO_ICON ) ) );	// 	иконку в заголовок окна
-		LPWSTR buf = NULL;
+		SendMessage( hWnd, WM_SETICON, ICON_BIG, ( LPARAM ) LoadIcon( GetModuleHandle( NULL ), MAKEINTRESOURCE( TSLOGO_ICON ) ) );	// 	иконку в заголовок окна
 		// локализуем из ресурсов
-		SetWindowText( hWnd, rcString( &buf, STR_OPTIONS ) );
-		SetDlgItemText( hWnd, IDC_CMDLINE_LABEL, rcString( &buf, STR_TSARGS ) );
-		SetDlgItemText( hWnd, IDCANCEL, rcString( &buf, STR_CANCEL ) );
-		free( buf );
+		SetWindowText( hWnd, wStr( STR_OPTIONS ).get() );
+		SetDlgItemText( hWnd, IDC_CMDLINE_LABEL, wStr( STR_TSARGS ).get() );
+		SetDlgItemText( hWnd, IDCANCEL, wStr( STR_CANCEL ).get() );
 		SetDlgItemText( hWnd, IDC_ARGS, opt.args.get() );
 		center_dlg( hWnd );
 	}
@@ -401,6 +396,7 @@ BOOL CALLBACK OptDlgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
 /************************************** ABOUT ***********************************************/
 #define TSL_URL L"https://github.com/Noperkot/TSL"
 #define TS_URL  L"https://github.com/YouROK/TorrServer"
+
 BOOL CALLBACK AboutDlgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
 
 	static HFONT hFont;
@@ -408,16 +404,14 @@ BOOL CALLBACK AboutDlgProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam ) 
 	switch( msg ) {
 
 	case WM_INITDIALOG: {
-		SendMessage( hWnd, WM_SETICON, ICON_SMALL, ( LPARAM ) LoadIcon( GetModuleHandle( NULL ), MAKEINTRESOURCE( TSLOGO_ICON ) ) );	// 	иконку в заголовок окна
-		LPWSTR caption = rcString( NULL, STR_ABOUT );
-		SetWindowText( hWnd, caption );
-		free( caption );
+		SendMessage( hWnd, WM_SETICON, ICON_BIG, ( LPARAM ) LoadIcon( GetModuleHandle( NULL ), MAKEINTRESOURCE( TSLOGO_ICON ) ) );	// 	иконку в заголовок окна
+		SetWindowText( hWnd, wStr( STR_ABOUT ).get() );
 		hFont = CreateFont( fontSize( hWnd, 8 ), 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Microsoft Sans Serif" );
 		SendDlgItemMessage( hWnd, IDC_TSVERSION,  WM_SETFONT, ( WPARAM ) hFont, ( LPARAM ) TRUE );
 		SendDlgItemMessage( hWnd, IDC_TSLVERSION, WM_SETFONT, ( WPARAM ) hFont, ( LPARAM ) TRUE );
 		SetDlgItemText( hWnd, IDC_TSLVERSION, _PRODUCTNAME_ L" v" _PRODUCTVERSION_ );
 		SetDlgItemText( hWnd, IDC_TSLCOPYRIGHT, _LEGALCOPYRIGHT_ );
-		SetDlgItemText( hWnd, IDC_TSVERSION, TS_version );
+		SetDlgItemText( hWnd, IDC_TSVERSION, TS_version.get() );
 		SetDlgItemText( hWnd, IDC_TSCOPYRIGHT, L"Copyright \x00A9 YouROK" );
 		// SetDlgItemText ( hWnd, IDC_TSWWWLINK,  L"<a>" TS_URL  L"</a>" );
 		// SetDlgItemText ( hWnd, IDC_TSLWWWLINK, L"<a>" TSL_URL L"</a>" );

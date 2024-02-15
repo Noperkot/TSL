@@ -9,8 +9,6 @@ enum { UM_TRAYACTION = WM_USER + 1, UM_NEWLINE, UM_SERVERSTARTED, UM_SERVERSTOPP
 
 extern HWND hMainWnd;
 
-LPWSTR wStrReplace( LPWSTR *dst, LPCWSTR str1 = NULL, LPCWSTR str2 = L"", LPCWSTR str3 = L"" );
-LPWSTR rcString( LPWSTR *dst, UINT idsText );
 bool isX64();
 LPCWSTR FileExists( LPCWSTR szPath );
 LPCWSTR checkTS();

@@ -15,15 +15,15 @@ typedef BOOL ( WINAPI *CWMFEx_t )( HWND, UINT, DWORD );  // ChangeWindowMessageF
 bool set_dir();
 
 HWND hMainWnd = 0;
-BOOL silent;
+static BOOL silent;
 
 int WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR args, int ss ) {
 	enum { CMD_STOP, CMD_START, CMD_RESTART, CMD_HIDE, CMD_SHOW, CMD_OPENWEB };
-	silent = opt.arg.search( L"--silent" );
+	silent = arg.search( L"--silent" );
 	UINT act;
 	{
 		HWND hWnd = FindWindow( MAIN_WINCLASS, 0 );							// ищем запущенный экземпляр tsl (по классу окна)
-		if( opt.arg.search( L"--close" ) ) {
+		if( arg.search( L"--close" ) ) {
 			if( hWnd ) SendMessage( hWnd, WM_DESTROY,  0, 0 );
 			return EXIT_SUCCESS;
 		}
@@ -39,7 +39,7 @@ int WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR args, int ss ) {
 			{ L"--web", ID_OPENWEB },
 		};
 		for( act = 0; act <  sizeof( actions ) / sizeof( *actions ); act++ ) {
-			if( opt.arg.search( actions[act].cmd ) ) {
+			if( arg.search( actions[act].cmd ) ) {
 				if( hWnd ) {
 					SendMessage( hWnd, WM_COMMAND,  actions[act].msg, 0 );
 					return EXIT_SUCCESS;
@@ -72,7 +72,6 @@ int WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR args, int ss ) {
 		wc.lpszClassName = MAIN_WINCLASS;
 		wc.lpfnWndProc = MainWinProc;
 		wc.hIcon = hFavIcon;
-		wc.hIconSm = hFavIcon;
 		wc.lpszMenuName = MAKEINTRESOURCE( IDR_FORMMENU );
 		if( !RegisterClassEx( &wc ) ) {
 			MessageBox( L"Unable to create a window class \"" MAIN_WINCLASS "\"", MB_OK | MB_APPLMODAL | MB_ICONERROR );
@@ -118,41 +117,10 @@ int WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR args, int ss ) {
 }
 
 bool set_dir() { // установка текущей директории из которой запущен tsl
-	LPWSTR workDir = wStrReplace( NULL, opt.arg.v[0] );
-	* wcsrchr( workDir, L'\\' ) = L'\0';
-	bool res = ( SetCurrentDirectory( workDir ) != 0 );
-	free( workDir );
+	wStr tmp( arg.v[0] );
+	* wcsrchr( tmp.get(), L'\\' ) = L'\0';
+	bool res = ( SetCurrentDirectory( tmp.get() ) != 0 );
 	return res && ( checkTS() != NULL );
-}
-
-LPWSTR wStrReplace( LPWSTR *dst, LPCWSTR str1, LPCWSTR str2, LPCWSTR str3 ) {  // создание новой строки склейкой str* с освобождением памяти от предыдущей
-	LPWSTR newstr = NULL;
-	if( str1 ) {
-		newstr = ( LPWSTR ) malloc( ( wcslen( str1 ) + wcslen( str2 ) + wcslen( str3 ) + 1 ) * sizeof( wchar_t ) );
-		wcscpy( newstr, str1 );
-		wcscat( newstr, str2 );
-		wcscat( newstr, str3 );
-	}
-	if( dst ) {
-		LPWSTR oldstr = *dst;
-		*dst = newstr;
-		free( oldstr );
-	}
-	return newstr;
-}
-
-LPWSTR rcString( LPWSTR *dst, UINT idsText ) {  // загрузка строки из ресурсов
-	LPWSTR ptmp;
-	int len = LoadString( NULL, idsText, ( LPWSTR ) &ptmp, 0 );
-	if( len++ ) {
-		ptmp = ( LPWSTR ) malloc( len * sizeof( *ptmp ) );
-		LoadString( NULL, idsText, ptmp, len );
-	} else ptmp = NULL;
-	if( dst ) {
-		free( *dst );
-		*dst = ptmp;
-	}
-	return ptmp;
 }
 
 bool isX64() {  // проверка разрядности ОС
@@ -174,11 +142,7 @@ LPCWSTR checkTS() {	// проверка существования экзешн�
 }
 
 void MessageBox( UINT idsText, UINT uType ) {  // MessageBox строки из ресурсов
-	if( !silent ) {
-		LPWSTR buf = rcString( NULL, idsText );
-		MessageBox( hMainWnd, buf, _PRODUCTNAME_, uType );
-		free( buf );
-	}
+	if( !silent ) MessageBox( hMainWnd, wStr( idsText ).get(), _PRODUCTNAME_, uType );
 }
 
 void MessageBox( LPCWSTR text, UINT uType ) {

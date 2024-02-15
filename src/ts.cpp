@@ -5,8 +5,8 @@
 #include "main.h"
 #include "ts.h"
 
-PROCESS_INFORMATION pi;
-HANDLE hThrd = NULL;
+static PROCESS_INFORMATION pi;
+static HANDLE hThrd = NULL;
 
 DWORD WINAPI Service_THRD( void *data ) {
 	DWORD exitCode = EXIT_SUCCESS;
@@ -21,9 +21,8 @@ DWORD WINAPI Service_THRD( void *data ) {
 			si.wShowWindow = SW_HIDE;
 			si.hStdOutput = hStdOutWr;
 			si.hStdError = hStdOutWr;
-			LPWSTR cmdLine = wStrReplace( NULL, ( LPCWSTR ) data, L" ", opt.args.get() );
 			memset( &pi, 0, sizeof( PROCESS_INFORMATION ) );
-			if( CreateProcess( ( LPCWSTR ) data, cmdLine, NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi ) ) {
+			if( CreateProcess( ( LPCWSTR ) data, wStr( ( LPCWSTR ) data, L" ", opt.args.get() ).get(), NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi ) ) {
 				CloseHandle( hStdOutWr );
 				SendMessage( hMainWnd, UM_SERVERSTARTED, 0, 0 );
 				DWORD avail, bread;
@@ -48,7 +47,6 @@ DWORD WINAPI Service_THRD( void *data ) {
 				exitCode = CREATEPROCESSERROR;
 			}
 			CloseHandle( hStdOutRd );
-			free( cmdLine );
 		} else exitCode = CREATEPIPEERROR;
 	} else exitCode = TSNOTFOUND;
 	PostMessage( hMainWnd, UM_SERVERSTOPPED, ( WPARAM )exitCode, ( LPARAM ) 0 );			// ставим сообщение в очередь. не ждем обработки
