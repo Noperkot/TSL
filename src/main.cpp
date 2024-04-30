@@ -52,10 +52,10 @@ int WINAPI wWinMain( HINSTANCE hInst, HINSTANCE, LPWSTR args, int ss ) {
 		}
 	}
 	if( !set_dir() ) {														// устанавливаем рабочую директорию и проверяем наличие экзешника торрсервера
-		MessageBox( ( isX64() ) ? STR_NEED_TORSERVER64 : STR_NEED_TORSERVER32, MB_OK | MB_APPLMODAL | MB_ICONERROR );
+		MessageBox( ( isX64() ) ? IDS_NEED_TORSERVER64 : IDS_NEED_TORSERVER32, MB_OK | MB_APPLMODAL | MB_ICONERROR );
 		return EXIT_FAILURE;
 	}
-	HICON hFavIcon = LoadIcon( GetModuleHandle( NULL ), MAKEINTRESOURCE( TSLOGO_ICON ) );
+	HICON hFavIcon = LoadIcon( GetModuleHandle( NULL ), MAKEINTRESOURCE( IDI_TSLOGO ) );
 	{
 		WNDCLASSEX wc = {0};
 		// регистрируем класс дочерних окон
