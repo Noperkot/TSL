@@ -5,7 +5,7 @@
 [**tsl.exe**](../../releases/latest/download/tsl.exe) положить в папку с исполняемым файлом торрсервера _[(TorrServer-windows-\*\*\*.exe)](https://github.com/YouROK/TorrServer/releases/latest)_ и запустить. Торрсервер стартует свернутым в трей (иконка рядом с часами в правом нижнем углу экрана). При желании можно включить автозапуск.   
 
 <details>
-<summary>Параметры запуска tsl.exe (для 99.99% пользователей это НЕ НУЖНО)</summary>  
+<summary>Параметры запуска tsl.exe</summary>  
   
 #### Параметры командной строки:  
   
@@ -17,13 +17,13 @@
 --restart | Рестарт сервера в запущенном экземпляре tsl | tsl запускается свернутым в трей
 --show | Развернуть окно запущенного экземпляра tsl | tsl запускается с открытым окном
 --hide | Свернуть окно запущенного экземпляра tsl в трей | tsl запускается свернутым в трей
---reset | Закрыть запущенный экземпляр tsl и сбросить параметры реестра | Сброс параметров реестра
 --web | Открыть в браузере веб-интерфейс TS | tsl запускается свернутым в трей и открывается веб-интерфейс TS
   
-#### Параметры реестра (HKEY_CURRENT_USER\Software\TorrServer):  
+#### Дополнительные параметры:  
   
  Параметр | Тип | Дефолтное значение | Описание
 ------------ | ------------- | ------------- | -------------
+args | REG_SZ |  | Аргументы командной строки TS
 WindowX | REG_DWORD | автоцентрирование | X координата окна (если создать этот параметр, он будет запоминаться при выходе)
 WindowY | REG_DWORD | автоцентрирование | Y координата окна (если создать этот параметр, он будет запоминаться при выходе)
 WindowW | REG_DWORD | 2/3 экрана | Ширина окна (запоминается при выходе)
@@ -41,23 +41,41 @@ ConsoleBkColor | REG_DWORD | 0x000000 | hex цвет фона 0xRRGGBB
 ConsoleFontColor | REG_DWORD | 0xBBBBBB | hex цвет шрифта 0xRRGGBB
 ConsoleFontSize | REG_DWORD | 9 | Размер шрифта
 ConsoleFontName | REG_SZ | Lucida Console | Название шрифта
-args | REG_SZ |  | Аргументы командной строки TS
+
+Дополнительные параметры могут быть заданы (в порядке убывания приоритета):  
+- либо в командной строке:
+```
+tls.exe args="--port=8090 -a" ConsoleFontColor=0xED9121 ...
+```
+
+- либо в файле tsl.ini:
+```
+[TorrServer]
+args=--port=8090 -a
+ConsoleFontColor=0xED9121
+...
+```
+- либо в реестре по пути:
+```
+HKEY_CURRENT_USER\Software\TorrServer 
+```
 
 </details>
+<br/>
 
-> Для ленивых - [**онлайн-инсталлятор**](../../releases/latest/download/TorrServer_Setup.exe) (TorrServer+Launcher)  
-> По умолчанию устанавливает последние версии продуктов, но при желании версию TorrServer можно задать параметром /V (пример - **"TorrServer_Setup.exe /V MatriX.110"**). Значение версии регистрочувствительно и должно полностью совпадать с тем, что имеется на [гитхабе](https://github.com/YouROK/TorrServer/releases). Примеры ярлыков для установки некоторых версий TorrServer будут располагаться в папке **"Setup\Прошлые версии"** по месту установки.  
-
+> Для ленивых - [**онлайн-инсталлятор**](../../../TorrServerInstaller/releases/latest/download/TorrServer_Setup.exe).  
+Сам скачает актуальные версии всех необходимых компонентов (TorrServer+Launcher), разложит по папкам и создаст ярлыки.  
+<br/>
 
 Обсуждение TorrServer'а и всего, что с ним связано:
 - [на 4PDA](https://4pda.to/forum/index.php?showtopic=889960)
 - [в Telegram](https://t.me/TorrServe)
 
-
+#
 <details><summary>Скриншоты</summary><br \>  
   
-![](/img/screen1.png?raw=true)  
+![](/doc/img/screen1.png?raw=true)  
 
-![](/img/screen2.png?raw=true)  
+![](/doc/img/screen2.png?raw=true)  
 
 </details>
