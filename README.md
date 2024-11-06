@@ -65,6 +65,7 @@ HKEY_CURRENT_USER\Software\TorrServer
 
 > Для ленивых - [**онлайн-инсталлятор**](../../../TorrServerInstaller/releases/latest/download/TorrServer_Setup.exe).  
 Сам скачает актуальные версии всех необходимых компонентов (TorrServer+Launcher), разложит по папкам и создаст ярлыки.  
+При наличии администраторских прав добавит торрсервер в исключения брандмауэра и создаст задачу автообновления версии TorrServer.  
 <br/>
 
 Обсуждение TorrServer'а и всего, что с ним связано:
