@@ -55,9 +55,8 @@ args=--port=8090 -a
 ConsoleFontColor=0xED9121
 ...
 ```
-- либо в реестре по пути:
-```
-HKEY_CURRENT_USER\Software\TorrServer 
+- либо в реестре по пути "HKEY_CURRENT_USER\Software\TorrServer":
+<img src="/doc/img/tslreg.png" width="50%" />
 ```
 
 </details>
