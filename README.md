@@ -57,10 +57,10 @@ ConsoleFontColor=0xED9121
 ```
 - либо в реестре по пути "HKEY_CURRENT_USER\Software\TorrServer":
 <img src="/doc/img/tslreg.png" width="50%" />
-```
 
 </details>
 <br/>
+
 
 > Для ленивых - [**онлайн-инсталлятор**](../../../TorrServerInstaller).  
 Сам скачает актуальные версии всех необходимых компонентов (TorrServer+Launcher), разложит по папкам и создаст ярлыки.  
